@@ -30,6 +30,10 @@ jobs:
 
       - name: Run tests
         run: npm test -- --workers=4 --project=chromium
+        env:
+          APP_USERNAME: ${{ secrets.APP_USERNAME }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          BASE_URL: ${{ secrets.BASE_URL }}
 
       - name: Upload Playwright report
         if: always()
