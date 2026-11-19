@@ -2,19 +2,17 @@ import { test, expect } from '@playwright/test';
 import { InventoryPage } from '../pages/inventory.page';
 import { LoginPage } from '../pages/login.page';
 import { CheckoutPage } from '../pages/checkout.page';
-import { createUser } from '../utilities/factory/factoryPattern';
+import { createUser, readCredentialsFromEnv } from '../utilities/factory/factoryPattern';
 import { CatalogBuilder } from '../utilities/builder/builderPattern';
 
 test('user can add products to the cart and complete checkout', async ({ page }) => {
   await page.goto('/');
 
-  // factory
   const loginPage = new LoginPage(page);
-  const credentials = await loginPage.readCredentials();
+  const credentials = readCredentialsFromEnv();
   const user = createUser('standard', credentials);
   await loginPage.login(user);
 
-  // builder
   const inventoryPage = new InventoryPage(page);
   const catalog = await inventoryPage.getCatalog();
   const cart = new CatalogBuilder(catalog)
@@ -50,7 +48,7 @@ test('locked out user cannot log in', async ({ page }) => {
   await page.goto('/');
 
   const loginPage = new LoginPage(page);
-  const user = createUser('locked_out', await loginPage.readCredentials());
+  const user = createUser('locked_out', readCredentialsFromEnv());
   await loginPage.attemptLogin(user);
 
   await loginPage.expectError(/locked out/i);
