@@ -31,9 +31,14 @@ jobs:
       - name: Run tests
         run: npm test -- --workers=4 --project=chromium
         env:
-          APP_USERNAME: ${{ secrets.APP_USERNAME }}
-          PASSWORD: ${{ secrets.PASSWORD }}
           BASE_URL: ${{ secrets.BASE_URL }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          APP_STANDARD_USERNAME: ${{ secrets.APP_STANDARD_USERNAME }}
+          APP_LOCKED_OUT_USERNAME: ${{ secrets.APP_LOCKED_OUT_USERNAME }}
+          APP_PROBLEM_USERNAME: ${{ secrets.APP_PROBLEM_USERNAME }}
+          APP_PERFORMANCE_GLITCH_USERNAME: ${{ secrets.APP_PERFORMANCE_GLITCH_USERNAME }}
+          APP_ERROR_USERNAME: ${{ secrets.APP_ERROR_USERNAME }}
+          APP_VISUAL_USERNAME: ${{ secrets.APP_VISUAL_USERNAME }}
 
       - name: Upload Playwright report
         if: always()
